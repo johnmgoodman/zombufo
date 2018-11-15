@@ -97,6 +97,17 @@ eval("module.exports = {\"zelementId\":\"zombufo\",\"height\":300,\"width\":300}
 
 /***/ }),
 
+/***/ "./src/components sync recursive \\.js$":
+/*!***********************************!*\
+  !*** ./src/components sync \.js$ ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("function webpackEmptyContext(req) {\n\tvar e = new Error(\"Cannot find module '\" + req + \"'\");\n\te.code = 'MODULE_NOT_FOUND';\n\tthrow e;\n}\nwebpackEmptyContext.keys = function() { return []; };\nwebpackEmptyContext.resolve = webpackEmptyContext;\nmodule.exports = webpackEmptyContext;\nwebpackEmptyContext.id = \"./src/components sync recursive \\\\.js$\";\n\n//# sourceURL=webpack:///./src/components_sync_\\.js$?");
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
@@ -108,14 +119,36 @@ eval("(function(config, zombufo) {\n  var initializer = function() {\n    window
 
 /***/ }),
 
+/***/ "./src/scenes sync recursive \\.js$":
+/*!*******************************!*\
+  !*** ./src/scenes sync \.js$ ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("var map = {\n\t\"./level_1.js\": \"./src/scenes/level_1.js\"\n};\n\n\nfunction webpackContext(req) {\n\tvar id = webpackContextResolve(req);\n\treturn __webpack_require__(id);\n}\nfunction webpackContextResolve(req) {\n\tvar id = map[req];\n\tif(!(id + 1)) { // check for number or string\n\t\tvar e = new Error(\"Cannot find module '\" + req + \"'\");\n\t\te.code = 'MODULE_NOT_FOUND';\n\t\tthrow e;\n\t}\n\treturn id;\n}\nwebpackContext.keys = function webpackContextKeys() {\n\treturn Object.keys(map);\n};\nwebpackContext.resolve = webpackContextResolve;\nmodule.exports = webpackContext;\nwebpackContext.id = \"./src/scenes sync recursive \\\\.js$\";\n\n//# sourceURL=webpack:///./src/scenes_sync_\\.js$?");
+
+/***/ }),
+
+/***/ "./src/scenes/level_1.js":
+/*!*******************************!*\
+  !*** ./src/scenes/level_1.js ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("Crafty.defineScene('Level 1', function(setup) {\n  console.log('Level 1!');\n});\n\n//# sourceURL=webpack:///./src/scenes/level_1.js?");
+
+/***/ }),
+
 /***/ "./src/zombufo.js":
 /*!************************!*\
   !*** ./src/zombufo.js ***!
   \************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-eval("\nvar initialize_zombufo = function(config, zelement) {\n  Crafty.init(config.width, config.height, zelement);\n};\n\n\nmodule.exports = function(config, zelement) {\n  if(typeof Crafty === 'undefined') throw('Crafty is undefined!');\n  initialize_zombufo(config, zombufo);\n};\n\n//# sourceURL=webpack:///./src/zombufo.js?");
+eval("\nvar initialize_zombufo = function(config, zelement) {\n  Crafty.init(config.width, config.height, zelement);\n};\n\nvar load_components = function() {\n  import_all(__webpack_require__(\"./src/components sync recursive \\\\.js$\"));\n};\n\nvar load_scenes = function() {\n  import_all(__webpack_require__(\"./src/scenes sync recursive \\\\.js$\"));\n};\n\nfunction import_all (r) {\n  r.keys().forEach(r);\n}\n\nmodule.exports = function(config, zelement) {\n  if(typeof Crafty === 'undefined') throw('Crafty is undefined!');\n  initialize_zombufo(config, zombufo);\n  load_components();\n  load_scenes();\n  Crafty.enterScene('Level 1');\n};\n\n//# sourceURL=webpack:///./src/zombufo.js?");
 
 /***/ })
 
