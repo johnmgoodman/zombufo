@@ -115,7 +115,7 @@ eval("var map = {\n\t\"./square.js\": \"./src/components/square.js\"\n};\n\n\nfu
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("Crafty.c('Square', {\n  init: function() {\n    this.addComponent('2D, DOM');\n  },\n\n  size: function(square_size) {\n    if(typeof square_size === 'undefined')\n      return this._square_size;\n\n    this.w = square_size;\n    this.h = square_size;\n    this._square_size = square_size;\n    return this;\n  }\n});\n\n//# sourceURL=webpack:///./src/components/square.js?");
+eval("Crafty.c('Square', {\n  init: function() {\n    this.addComponent('2D, DOM');\n  },\n\n  size: function(square_size) {\n    if(typeof square_size === 'undefined')\n      return this._size;\n\n    this.w = square_size;\n    this.h = square_size;\n    this._size = square_size;\n    return this;\n  }\n});\n\n//# sourceURL=webpack:///./src/components/square.js?");
 
 /***/ }),
 
@@ -126,18 +126,29 @@ eval("Crafty.c('Square', {\n  init: function() {\n    this.addComponent('2D, DOM
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("var map = {\n\t\"./square.js\": \"./src/entities/square.js\"\n};\n\n\nfunction webpackContext(req) {\n\tvar id = webpackContextResolve(req);\n\treturn __webpack_require__(id);\n}\nfunction webpackContextResolve(req) {\n\tvar id = map[req];\n\tif(!(id + 1)) { // check for number or string\n\t\tvar e = new Error(\"Cannot find module '\" + req + \"'\");\n\t\te.code = 'MODULE_NOT_FOUND';\n\t\tthrow e;\n\t}\n\treturn id;\n}\nwebpackContext.keys = function webpackContextKeys() {\n\treturn Object.keys(map);\n};\nwebpackContext.resolve = webpackContextResolve;\nmodule.exports = webpackContext;\nwebpackContext.id = \"./src/entities sync recursive \\\\.js$\";\n\n//# sourceURL=webpack:///./src/entities_sync_\\.js$?");
+eval("var map = {\n\t\"./green_square.js\": \"./src/entities/green_square.js\",\n\t\"./red_square.js\": \"./src/entities/red_square.js\"\n};\n\n\nfunction webpackContext(req) {\n\tvar id = webpackContextResolve(req);\n\treturn __webpack_require__(id);\n}\nfunction webpackContextResolve(req) {\n\tvar id = map[req];\n\tif(!(id + 1)) { // check for number or string\n\t\tvar e = new Error(\"Cannot find module '\" + req + \"'\");\n\t\te.code = 'MODULE_NOT_FOUND';\n\t\tthrow e;\n\t}\n\treturn id;\n}\nwebpackContext.keys = function webpackContextKeys() {\n\treturn Object.keys(map);\n};\nwebpackContext.resolve = webpackContextResolve;\nmodule.exports = webpackContext;\nwebpackContext.id = \"./src/entities sync recursive \\\\.js$\";\n\n//# sourceURL=webpack:///./src/entities_sync_\\.js$?");
 
 /***/ }),
 
-/***/ "./src/entities/square.js":
-/*!********************************!*\
-  !*** ./src/entities/square.js ***!
-  \********************************/
+/***/ "./src/entities/green_square.js":
+/*!**************************************!*\
+  !*** ./src/entities/green_square.js ***!
+  \**************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("zombufo.e('Square', function(attr) {\n  var position = {x: attr.x, y: attr.y};\n  var size = attr.size;\n  var color = attr.color;\n\n  return Crafty.e('Square, Color')\n    .attr({x: position.x, y: position.y})\n    .size(size)\n    .color(color);\n});\n\n//# sourceURL=webpack:///./src/entities/square.js?");
+eval("zombufo.e('GreenSquare', function() {\n  return Crafty.e('Square, Color')\n    .color('#00FF00');\n});\n\n//# sourceURL=webpack:///./src/entities/green_square.js?");
+
+/***/ }),
+
+/***/ "./src/entities/red_square.js":
+/*!************************************!*\
+  !*** ./src/entities/red_square.js ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("zombufo.e('RedSquare', function() {\n  return Crafty.e('Square, Color')\n    .color('#FF0000');\n});\n\n//# sourceURL=webpack:///./src/entities/red_square.js?");
 
 /***/ }),
 
@@ -181,7 +192,7 @@ eval("var map = {\n\t\"./level_1.js\": \"./src/scenes/level_1.js\"\n};\n\n\nfunc
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("Crafty.defineScene('Level 1', function(setup) {\n  console.log('Level 1!');\n  zombufo.e('Square', {x:0,y:0,size:20, color:'#00ff00'});\n});\n\n//# sourceURL=webpack:///./src/scenes/level_1.js?");
+eval("Crafty.defineScene('Level 1', function(setup) {\n  console.log('Level 1!');\n  zombufo.e('GreenSquare')\n    .attr({x: 0, y:0})\n    .size(30);\n  zombufo.e('RedSquare')\n    .attr({x: 30, y:10})\n    .size(24);\n});\n\n//# sourceURL=webpack:///./src/scenes/level_1.js?");
 
 /***/ }),
 

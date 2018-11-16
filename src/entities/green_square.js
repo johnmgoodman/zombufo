@@ -1,10 +1,4 @@
-zombufo.e('GreenSquare', function(attr) {
-  var position = {x: attr.x, y: attr.y};
-  var size = attr.size;
-  var color = attr.color;
-
+zombufo.e('GreenSquare', function() {
   return Crafty.e('Square, Color')
-    .attr({x: position.x, y: position.y})
-    .size(size)
-    .color(color);
+    .color('#00FF00');
 });
