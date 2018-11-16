@@ -102,9 +102,20 @@ eval("module.exports = {\"zelementId\":\"zombufo\",\"height\":300,\"width\":300}
   !*** ./src/components sync \.js$ ***!
   \***********************************/
 /*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("var map = {\n\t\"./square.js\": \"./src/components/square.js\"\n};\n\n\nfunction webpackContext(req) {\n\tvar id = webpackContextResolve(req);\n\treturn __webpack_require__(id);\n}\nfunction webpackContextResolve(req) {\n\tvar id = map[req];\n\tif(!(id + 1)) { // check for number or string\n\t\tvar e = new Error(\"Cannot find module '\" + req + \"'\");\n\t\te.code = 'MODULE_NOT_FOUND';\n\t\tthrow e;\n\t}\n\treturn id;\n}\nwebpackContext.keys = function webpackContextKeys() {\n\treturn Object.keys(map);\n};\nwebpackContext.resolve = webpackContextResolve;\nmodule.exports = webpackContext;\nwebpackContext.id = \"./src/components sync recursive \\\\.js$\";\n\n//# sourceURL=webpack:///./src/components_sync_\\.js$?");
+
+/***/ }),
+
+/***/ "./src/components/square.js":
+/*!**********************************!*\
+  !*** ./src/components/square.js ***!
+  \**********************************/
+/*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("function webpackEmptyContext(req) {\n\tvar e = new Error(\"Cannot find module '\" + req + \"'\");\n\te.code = 'MODULE_NOT_FOUND';\n\tthrow e;\n}\nwebpackEmptyContext.keys = function() { return []; };\nwebpackEmptyContext.resolve = webpackEmptyContext;\nmodule.exports = webpackEmptyContext;\nwebpackEmptyContext.id = \"./src/components sync recursive \\\\.js$\";\n\n//# sourceURL=webpack:///./src/components_sync_\\.js$?");
+eval("Crafty.c('Square', {\n  init: function() {\n    this.addComponent('2D, DOM');\n  },\n\n  size: function(square_size) {\n    if(typeof square_size === 'undefined')\n      return this._square_size;\n\n    this.w = square_size;\n    this.h = square_size;\n    this._square_size = square_size;\n    return this;\n  }\n});\n\n//# sourceURL=webpack:///./src/components/square.js?");
 
 /***/ }),
 
@@ -126,7 +137,7 @@ eval("var map = {\n\t\"./square.js\": \"./src/entities/square.js\"\n};\n\n\nfunc
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("zombufo.e('Square', function(attr) {\n  var position = {x: attr.x, y: attr.y};\n  var width = attr.size;\n  var height = attr.size;\n  var color = attr.color;\n\n  return Crafty.e('2D, DOM, Color')\n    .attr({x: position.x, y: position.y, w: width, h: height})\n    .color(color);\n});\n\n//# sourceURL=webpack:///./src/entities/square.js?");
+eval("zombufo.e('Square', function(attr) {\n  var position = {x: attr.x, y: attr.y};\n  var size = attr.size;\n  var color = attr.color;\n\n  return Crafty.e('Square, Color')\n    .attr({x: position.x, y: position.y})\n    .size(size)\n    .color(color);\n});\n\n//# sourceURL=webpack:///./src/entities/square.js?");
 
 /***/ }),
 
