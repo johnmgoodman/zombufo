@@ -104,7 +104,18 @@ eval("module.exports = {\"zelementId\":\"zombufo\",\"height\":300,\"width\":300}
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("var map = {\n\t\"./square.js\": \"./src/components/square.js\"\n};\n\n\nfunction webpackContext(req) {\n\tvar id = webpackContextResolve(req);\n\treturn __webpack_require__(id);\n}\nfunction webpackContextResolve(req) {\n\tvar id = map[req];\n\tif(!(id + 1)) { // check for number or string\n\t\tvar e = new Error(\"Cannot find module '\" + req + \"'\");\n\t\te.code = 'MODULE_NOT_FOUND';\n\t\tthrow e;\n\t}\n\treturn id;\n}\nwebpackContext.keys = function webpackContextKeys() {\n\treturn Object.keys(map);\n};\nwebpackContext.resolve = webpackContextResolve;\nmodule.exports = webpackContext;\nwebpackContext.id = \"./src/components sync recursive \\\\.js$\";\n\n//# sourceURL=webpack:///./src/components_sync_\\.js$?");
+eval("var map = {\n\t\"./rigid_body.js\": \"./src/components/rigid_body.js\",\n\t\"./square.js\": \"./src/components/square.js\"\n};\n\n\nfunction webpackContext(req) {\n\tvar id = webpackContextResolve(req);\n\treturn __webpack_require__(id);\n}\nfunction webpackContextResolve(req) {\n\tvar id = map[req];\n\tif(!(id + 1)) { // check for number or string\n\t\tvar e = new Error(\"Cannot find module '\" + req + \"'\");\n\t\te.code = 'MODULE_NOT_FOUND';\n\t\tthrow e;\n\t}\n\treturn id;\n}\nwebpackContext.keys = function webpackContextKeys() {\n\treturn Object.keys(map);\n};\nwebpackContext.resolve = webpackContextResolve;\nmodule.exports = webpackContext;\nwebpackContext.id = \"./src/components sync recursive \\\\.js$\";\n\n//# sourceURL=webpack:///./src/components_sync_\\.js$?");
+
+/***/ }),
+
+/***/ "./src/components/rigid_body.js":
+/*!**************************************!*\
+  !*** ./src/components/rigid_body.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("Crafty.c('RigidBody', {\n  init: function() {\n    this.addComponent('2D');\n    this._velocity_y = 0;\n    this._velocity_x = 0;\n    this._angular_velocity = 0;\n    this._mass = 0;\n  },\n\n  events: {\n    \"UpdateFrame\": function(frameData) {\n      var dt = frameData.dt / 1000;\n      this._updatePosition(dt);\n      this._updateRotation(dt);\n    }\n  },\n\n  mass: function(mass) {\n    if(typeof mass === 'undefined')\n      return this._mass;\n    this._mass = mass;\n    return this;\n  },\n\n  velocity: function(velocity) {\n    if(typeof velocity === 'undefined')\n      return [this._velocity_x, this._velocity_y];\n    this._velocity_x = velocity[0];\n    this._velocity_y = velocity[1];\n    return this;\n  },\n\n  angular_velocity: function(angular_velocity) {\n    if(typeof angular_velocity === 'undefined')\n      return this._angular_velocity;\n    this._angular_velocity = angular_velocity;\n    return this;\n  },\n\n  \n  _updatePosition: function(dt) {\n    var dx = dt * this._velocity_x;\n    var dy = dt * this._velocity_y;\n    this.x = this._x + dx;\n    this.y = this._y + dy;\n  },\n\n  _updateRotation: function(dt) {\n    var dTheta = dt * this._angular_velocity;\n    this.rotation = (this._rotation + dTheta) % 360;\n  }\n\n});\n\n//# sourceURL=webpack:///./src/components/rigid_body.js?");
 
 /***/ }),
 
@@ -137,7 +148,7 @@ eval("var map = {\n\t\"./green_square.js\": \"./src/entities/green_square.js\",\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("zombufo.e('GreenSquare', function() {\n  return Crafty.e('Square, Color')\n    .color('#00FF00');\n});\n\n//# sourceURL=webpack:///./src/entities/green_square.js?");
+eval("zombufo.e('GreenSquare', function() {\n  return Crafty.e('Square, Color, RigidBody')\n    .color('#00FF00')\n    .angular_velocity(20);\n});\n\n//# sourceURL=webpack:///./src/entities/green_square.js?");
 
 /***/ }),
 
@@ -192,7 +203,7 @@ eval("var map = {\n\t\"./level_1.js\": \"./src/scenes/level_1.js\"\n};\n\n\nfunc
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("Crafty.defineScene('Level 1', function(setup) {\n  console.log('Level 1!');\n  zombufo.e('GreenSquare')\n    .attr({x: 0, y:0})\n    .size(30);\n  zombufo.e('RedSquare')\n    .attr({x: 30, y:10})\n    .size(24);\n});\n\n//# sourceURL=webpack:///./src/scenes/level_1.js?");
+eval("Crafty.defineScene('Level 1', function(setup) {\n  console.log('Level 1!');\n  zombufo.e('GreenSquare')\n    .attr({x: 50, y:50})\n    .size(30)\n    .origin('center');\n  zombufo.e('RedSquare')\n    .attr({x: 30, y:10})\n    .size(24);\n});\n\n//# sourceURL=webpack:///./src/scenes/level_1.js?");
 
 /***/ }),
 
