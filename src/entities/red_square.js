@@ -14,7 +14,6 @@ zombufo.e('RedSquare', function() {
     .color('#FF0000');
   
   red_square.uniqueBind('Input Control Move Updated', function(data) {
-    console.log('red square received "Input Control Move Updated"', data);
     var active = data.active;
     this.acceleration(calc_from_active_keys(active, 1.0));
   });

@@ -19,7 +19,6 @@ Crafty.c('InputControl', {
 
   events: {
     'Input Started': function(data) {
-      console.log('input control received "Input Started"', data);
       var input = data.input;
       if(input_types.hasOwnProperty(input)) {
         let input_type = input_types[input];
@@ -32,7 +31,6 @@ Crafty.c('InputControl', {
       }
     },
     'Input Ended': function(data) {
-      console.log('input control received "Input Ended"', data);
       var input = data.input;
       if(input_types.hasOwnProperty(input)) {
         let input_type = input_types[input];
