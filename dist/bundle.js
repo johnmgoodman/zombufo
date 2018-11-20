@@ -104,7 +104,18 @@ eval("module.exports = {\"zelementId\":\"zombufo\",\"height\":300,\"width\":300}
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("var map = {\n\t\"./rigid_body.js\": \"./src/components/rigid_body.js\",\n\t\"./square.js\": \"./src/components/square.js\"\n};\n\n\nfunction webpackContext(req) {\n\tvar id = webpackContextResolve(req);\n\treturn __webpack_require__(id);\n}\nfunction webpackContextResolve(req) {\n\tvar id = map[req];\n\tif(!(id + 1)) { // check for number or string\n\t\tvar e = new Error(\"Cannot find module '\" + req + \"'\");\n\t\te.code = 'MODULE_NOT_FOUND';\n\t\tthrow e;\n\t}\n\treturn id;\n}\nwebpackContext.keys = function webpackContextKeys() {\n\treturn Object.keys(map);\n};\nwebpackContext.resolve = webpackContextResolve;\nmodule.exports = webpackContext;\nwebpackContext.id = \"./src/components sync recursive \\\\.js$\";\n\n//# sourceURL=webpack:///./src/components_sync_\\.js$?");
+eval("var map = {\n\t\"./input_control.js\": \"./src/components/input_control.js\",\n\t\"./rigid_body.js\": \"./src/components/rigid_body.js\",\n\t\"./square.js\": \"./src/components/square.js\"\n};\n\n\nfunction webpackContext(req) {\n\tvar id = webpackContextResolve(req);\n\treturn __webpack_require__(id);\n}\nfunction webpackContextResolve(req) {\n\tvar id = map[req];\n\tif(!(id + 1)) { // check for number or string\n\t\tvar e = new Error(\"Cannot find module '\" + req + \"'\");\n\t\te.code = 'MODULE_NOT_FOUND';\n\t\tthrow e;\n\t}\n\treturn id;\n}\nwebpackContext.keys = function webpackContextKeys() {\n\treturn Object.keys(map);\n};\nwebpackContext.resolve = webpackContextResolve;\nmodule.exports = webpackContext;\nwebpackContext.id = \"./src/components sync recursive \\\\.js$\";\n\n//# sourceURL=webpack:///./src/components_sync_\\.js$?");
+
+/***/ }),
+
+/***/ "./src/components/input_control.js":
+/*!*****************************************!*\
+  !*** ./src/components/input_control.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("const type_event_name_map = {\n  \"move\": \"Input Control Move Updated\"\n};\n\nconst input_types = {\n  \"up\": \"move\",\n  \"left\": \"move\",\n  \"down\": \"move\",\n  \"right\": \"move\"\n};\n\nCrafty.c('InputControl', {\n\n  init: function() {\n    this._input_control = {\n      move: []\n    };\n  },\n\n  events: {\n    'Input Started': function(data) {\n      console.log('input control received \"Input Started\"', data);\n      var input = data.input;\n      if(input_types.hasOwnProperty(input)) {\n        let input_type = input_types[input];\n        let active = this._input_control[input_type];\n        let active_index = active.indexOf(input);\n        if( active_index === -1) {\n          active.push(input);\n          this._trigger_input_controls_updated(input_type, 'started', active, input);\n        }\n      }\n    },\n    'Input Ended': function(data) {\n      console.log('input control received \"Input Ended\"', data);\n      var input = data.input;\n      if(input_types.hasOwnProperty(input)) {\n        let input_type = input_types[input];\n        let active = this._input_control[input_type];\n        let active_index = active.indexOf(input);\n        if(active_index !== -1) {\n          active.splice(active_index, 1);\n          this._trigger_input_controls_updated(input_type, 'ended', active, input);\n        }\n      }\n    }\n  },\n\n  _trigger_input_controls_updated: function(input_type, status, active_controls, changed) {\n    this.trigger(type_event_name_map[input_type], {\n      type: input_type,\n      status: status,\n      active: active_controls,\n      changed: changed\n    });\n  }\n});\n\n//# sourceURL=webpack:///./src/components/input_control.js?");
 
 /***/ }),
 
@@ -115,7 +126,7 @@ eval("var map = {\n\t\"./rigid_body.js\": \"./src/components/rigid_body.js\",\n\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("Crafty.c('RigidBody', {\n  init: function() {\n    this.addComponent('2D');\n    this._velocity_y = 0;\n    this._velocity_x = 0;\n    this._angular_velocity = 0;\n    this._mass = 0;\n  },\n\n  events: {\n    \"UpdateFrame\": function(frameData) {\n      var dt = frameData.dt / 1000;\n      this._updatePosition(dt);\n      this._updateRotation(dt);\n    }\n  },\n\n  mass: function(mass) {\n    if(typeof mass === 'undefined')\n      return this._mass;\n    this._mass = mass;\n    return this;\n  },\n\n  velocity: function(velocity) {\n    if(typeof velocity === 'undefined')\n      return [this._velocity_x, this._velocity_y];\n    this._velocity_x = velocity[0];\n    this._velocity_y = velocity[1];\n    return this;\n  },\n\n  angular_velocity: function(angular_velocity) {\n    if(typeof angular_velocity === 'undefined')\n      return this._angular_velocity;\n    this._angular_velocity = angular_velocity;\n    return this;\n  },\n\n  \n  _updatePosition: function(dt) {\n    var dx = dt * this._velocity_x;\n    var dy = dt * this._velocity_y;\n    this.x = this._x + dx;\n    this.y = this._y + dy;\n  },\n\n  _updateRotation: function(dt) {\n    var dTheta = dt * this._angular_velocity;\n    this.rotation = (this._rotation + dTheta) % 360;\n  }\n\n});\n\n//# sourceURL=webpack:///./src/components/rigid_body.js?");
+eval("Crafty.c('RigidBody', {\n  init: function() {\n    this.addComponent('2D');\n    this._velocity_y = 0;\n    this._velocity_x = 0;\n    this._acceleration_y = 0;\n    this._acceleration_x = 0;\n    this._angular_velocity = 0;\n    this._mass = 0;\n  },\n\n  events: {\n    \"UpdateFrame\": function(frameData) {\n      var dt = frameData.dt / 1000; // delta time in seconds\n      this._updatePosition(dt);\n      this._updateRotation(dt);\n    }\n  },\n\n  mass: function(mass) {\n    if(typeof mass === 'undefined')\n      return this._mass;\n    this._mass = mass;\n    return this;\n  },\n\n  accelerate: function(mod_acceleration) {\n    this._acceleration_x += mod_acceleration[0];\n    this._acceleration_y += mod_acceleration[1];\n  },\n\n  acceleration: function(acceleration) {\n    if(typeof acceleration === 'undefined')\n      return [this._acceleration_x, this._acceleration_y];\n    this._acceleration_x = acceleration[0];\n    this._acceleration_y = acceleration[1];\n    return this;\n  },\n\n  velocity: function(velocity) {\n    if(typeof velocity === 'undefined')\n      return [this._velocity_x, this._velocity_y];\n    this._velocity_x = velocity[0];\n    this._velocity_y = velocity[1];\n    return this;\n  },\n\n  angular_velocity: function(angular_velocity) {\n    if(typeof angular_velocity === 'undefined')\n      return this._angular_velocity;\n    this._angular_velocity = angular_velocity;\n    return this;\n  },\n\n  \n  _updatePosition: function(dt) {\n    this._velocity_x += this._acceleration_x;\n    this._velocity_y += this._acceleration_y;\n    var dx = dt * this._velocity_x;\n    var dy = dt * this._velocity_y;\n    this.x = this._x + dx;\n    this.y = this._y + dy;\n  },\n\n  _updateRotation: function(dt) {\n    var dTheta = dt * this._angular_velocity;\n    this.rotation = (this._rotation + dTheta) % 360;\n  }\n\n});\n\n//# sourceURL=webpack:///./src/components/rigid_body.js?");
 
 /***/ }),
 
@@ -137,7 +148,7 @@ eval("Crafty.c('Square', {\n  init: function() {\n    this.addComponent('2D, DOM
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("var map = {\n\t\"./green_square.js\": \"./src/entities/green_square.js\",\n\t\"./red_square.js\": \"./src/entities/red_square.js\"\n};\n\n\nfunction webpackContext(req) {\n\tvar id = webpackContextResolve(req);\n\treturn __webpack_require__(id);\n}\nfunction webpackContextResolve(req) {\n\tvar id = map[req];\n\tif(!(id + 1)) { // check for number or string\n\t\tvar e = new Error(\"Cannot find module '\" + req + \"'\");\n\t\te.code = 'MODULE_NOT_FOUND';\n\t\tthrow e;\n\t}\n\treturn id;\n}\nwebpackContext.keys = function webpackContextKeys() {\n\treturn Object.keys(map);\n};\nwebpackContext.resolve = webpackContextResolve;\nmodule.exports = webpackContext;\nwebpackContext.id = \"./src/entities sync recursive \\\\.js$\";\n\n//# sourceURL=webpack:///./src/entities_sync_\\.js$?");
+eval("var map = {\n\t\"./green_square.js\": \"./src/entities/green_square.js\",\n\t\"./keyboard.js\": \"./src/entities/keyboard.js\",\n\t\"./red_square.js\": \"./src/entities/red_square.js\"\n};\n\n\nfunction webpackContext(req) {\n\tvar id = webpackContextResolve(req);\n\treturn __webpack_require__(id);\n}\nfunction webpackContextResolve(req) {\n\tvar id = map[req];\n\tif(!(id + 1)) { // check for number or string\n\t\tvar e = new Error(\"Cannot find module '\" + req + \"'\");\n\t\te.code = 'MODULE_NOT_FOUND';\n\t\tthrow e;\n\t}\n\treturn id;\n}\nwebpackContext.keys = function webpackContextKeys() {\n\treturn Object.keys(map);\n};\nwebpackContext.resolve = webpackContextResolve;\nmodule.exports = webpackContext;\nwebpackContext.id = \"./src/entities sync recursive \\\\.js$\";\n\n//# sourceURL=webpack:///./src/entities_sync_\\.js$?");
 
 /***/ }),
 
@@ -152,6 +163,17 @@ eval("zombufo.e('GreenSquare', function() {\n  return Crafty.e('Square, Color, R
 
 /***/ }),
 
+/***/ "./src/entities/keyboard.js":
+/*!**********************************!*\
+  !*** ./src/entities/keyboard.js ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("const key_input_map = {\n  \"w\": { \"type\": \"move\", \"input\": \"up\" },\n  \"a\": { \"type\": \"move\", \"input\": \"left\" },\n  \"s\": { \"type\": \"move\", \"input\": \"down\" },\n  \"d\": { \"type\": \"move\", \"input\": \"right\" }\n};\n\nvar handle_key_down = function(keyboard_event) {\n  console.log('keyboard received \"KeyDown\"', keyboard_event);\n  var key = keyboard_event.originalEvent.key;\n  if(key_input_map.hasOwnProperty(key)) {\n    Crafty.trigger('Input Started', key_input_map[key]);\n  }\n};\n\nvar handle_key_up = function(keyboard_event) {\n  console.log('keyboard received \"KeyUp\"', keyboard_event);\n  var key = keyboard_event.originalEvent.key;\n  if(key_input_map.hasOwnProperty(key)) {\n    Crafty.trigger('Input Ended', key_input_map[key]);\n  }\n};\n\nzombufo.e('Keyboard', function() {\n  return Crafty.e('Input, KeyboardInput')\n    .bind('KeyDown', handle_key_down)\n    .bind('KeyUp', handle_key_up);\n});\n\n//# sourceURL=webpack:///./src/entities/keyboard.js?");
+
+/***/ }),
+
 /***/ "./src/entities/red_square.js":
 /*!************************************!*\
   !*** ./src/entities/red_square.js ***!
@@ -159,7 +181,7 @@ eval("zombufo.e('GreenSquare', function() {\n  return Crafty.e('Square, Color, R
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("zombufo.e('RedSquare', function() {\n  return Crafty.e('Square, Color')\n    .color('#FF0000');\n});\n\n//# sourceURL=webpack:///./src/entities/red_square.js?");
+eval("var calc_from_active_keys = function(active, max_acc) {\n  var horizontalctl = (active.indexOf('left') === -1 ? 0 : -1) + (active.indexOf('right') === -1 ? 0 : 1);\n  var verticalctl = (active.indexOf('up') === -1 ? 0 : -1) + (active.indexOf('down') === -1 ? 0 : 1);\n  \n  if(horizontalctl === 0 || verticalctl === 0 ) {\n    return [max_acc * horizontalctl, max_acc * verticalctl];\n  } else {\n    return [max_acc * (Math.PI/4) * horizontalctl, max_acc * (Math.PI/4) * verticalctl];\n  }\n};\n\nzombufo.e('RedSquare', function() {\n  var red_square = Crafty.e('Square, Color, RigidBody, InputControl')\n    .color('#FF0000');\n  \n  red_square.uniqueBind('Input Control Move Updated', function(data) {\n    console.log('red square received \"Input Control Move Updated\"', data);\n    var active = data.active;\n    this.acceleration(calc_from_active_keys(active, 1.0));\n  });\n  \n  return red_square;\n});\n\n//# sourceURL=webpack:///./src/entities/red_square.js?");
 
 /***/ }),
 
@@ -203,7 +225,7 @@ eval("var map = {\n\t\"./level_1.js\": \"./src/scenes/level_1.js\"\n};\n\n\nfunc
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("Crafty.defineScene('Level 1', function(setup) {\n  console.log('Level 1!');\n  zombufo.e('GreenSquare')\n    .attr({x: 50, y:50})\n    .size(30)\n    .origin('center');\n  zombufo.e('RedSquare')\n    .attr({x: 30, y:10})\n    .size(24);\n});\n\n//# sourceURL=webpack:///./src/scenes/level_1.js?");
+eval("Crafty.defineScene('Level 1', function(setup) {\n  console.log('Level 1!');\n  zombufo.e('Keyboard');\n  zombufo.e('GreenSquare')\n    .attr({x: 50, y:50})\n    .size(30)\n    .origin('center');\n  zombufo.e('RedSquare')\n    .attr({x: 30, y:10})\n    .size(24);\n});\n\n//# sourceURL=webpack:///./src/scenes/level_1.js?");
 
 /***/ }),
 

@@ -3,6 +3,8 @@ Crafty.c('RigidBody', {
     this.addComponent('2D');
     this._velocity_y = 0;
     this._velocity_x = 0;
+    this._acceleration_y = 0;
+    this._acceleration_x = 0;
     this._angular_velocity = 0;
     this._mass = 0;
   },
@@ -19,6 +21,19 @@ Crafty.c('RigidBody', {
     if(typeof mass === 'undefined')
       return this._mass;
     this._mass = mass;
+    return this;
+  },
+
+  accelerate: function(mod_acceleration) {
+    this._acceleration_x += mod_acceleration[0];
+    this._acceleration_y += mod_acceleration[1];
+  },
+
+  acceleration: function(acceleration) {
+    if(typeof acceleration === 'undefined')
+      return [this._acceleration_x, this._acceleration_y];
+    this._acceleration_x = acceleration[0];
+    this._acceleration_y = acceleration[1];
     return this;
   },
 
@@ -39,6 +54,8 @@ Crafty.c('RigidBody', {
 
   
   _updatePosition: function(dt) {
+    this._velocity_x += this._acceleration_x;
+    this._velocity_y += this._acceleration_y;
     var dx = dt * this._velocity_x;
     var dy = dt * this._velocity_y;
     this.x = this._x + dx;
