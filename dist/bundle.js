@@ -148,7 +148,7 @@ eval("Crafty.c('Square', {\n  init: function() {\n    this.addComponent('2D, DOM
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("var map = {\n\t\"./green_square.js\": \"./src/entities/green_square.js\",\n\t\"./keyboard.js\": \"./src/entities/keyboard.js\",\n\t\"./red_square.js\": \"./src/entities/red_square.js\"\n};\n\n\nfunction webpackContext(req) {\n\tvar id = webpackContextResolve(req);\n\treturn __webpack_require__(id);\n}\nfunction webpackContextResolve(req) {\n\tvar id = map[req];\n\tif(!(id + 1)) { // check for number or string\n\t\tvar e = new Error(\"Cannot find module '\" + req + \"'\");\n\t\te.code = 'MODULE_NOT_FOUND';\n\t\tthrow e;\n\t}\n\treturn id;\n}\nwebpackContext.keys = function webpackContextKeys() {\n\treturn Object.keys(map);\n};\nwebpackContext.resolve = webpackContextResolve;\nmodule.exports = webpackContext;\nwebpackContext.id = \"./src/entities sync recursive \\\\.js$\";\n\n//# sourceURL=webpack:///./src/entities_sync_\\.js$?");
+eval("var map = {\n\t\"./green_square.js\": \"./src/entities/green_square.js\",\n\t\"./keyboard.js\": \"./src/entities/keyboard.js\",\n\t\"./red_square.js\": \"./src/entities/red_square.js\",\n\t\"./space_background.js\": \"./src/entities/space_background.js\"\n};\n\n\nfunction webpackContext(req) {\n\tvar id = webpackContextResolve(req);\n\treturn __webpack_require__(id);\n}\nfunction webpackContextResolve(req) {\n\tvar id = map[req];\n\tif(!(id + 1)) { // check for number or string\n\t\tvar e = new Error(\"Cannot find module '\" + req + \"'\");\n\t\te.code = 'MODULE_NOT_FOUND';\n\t\tthrow e;\n\t}\n\treturn id;\n}\nwebpackContext.keys = function webpackContextKeys() {\n\treturn Object.keys(map);\n};\nwebpackContext.resolve = webpackContextResolve;\nmodule.exports = webpackContext;\nwebpackContext.id = \"./src/entities sync recursive \\\\.js$\";\n\n//# sourceURL=webpack:///./src/entities_sync_\\.js$?");
 
 /***/ }),
 
@@ -170,7 +170,7 @@ eval("zombufo.e('GreenSquare', function() {\n  return Crafty.e('Square, Color, R
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("const key_input_map = {\n  \"w\": { \"type\": \"move\", \"input\": \"up\" },\n  \"a\": { \"type\": \"move\", \"input\": \"left\" },\n  \"s\": { \"type\": \"move\", \"input\": \"down\" },\n  \"d\": { \"type\": \"move\", \"input\": \"right\" }\n};\n\nvar handle_key_down = function(keyboard_event) {\n  console.log('keyboard received \"KeyDown\"', keyboard_event);\n  var key = keyboard_event.originalEvent.key;\n  if(key_input_map.hasOwnProperty(key)) {\n    Crafty.trigger('Input Started', key_input_map[key]);\n  }\n};\n\nvar handle_key_up = function(keyboard_event) {\n  console.log('keyboard received \"KeyUp\"', keyboard_event);\n  var key = keyboard_event.originalEvent.key;\n  if(key_input_map.hasOwnProperty(key)) {\n    Crafty.trigger('Input Ended', key_input_map[key]);\n  }\n};\n\nzombufo.e('Keyboard', function() {\n  return Crafty.e('Input, KeyboardInput')\n    .bind('KeyDown', handle_key_down)\n    .bind('KeyUp', handle_key_up);\n});\n\n//# sourceURL=webpack:///./src/entities/keyboard.js?");
+eval("const key_input_map = {\n  \"87\": { \"type\": \"move\", \"input\": \"up\" },       // \"w\"\n  \"65\": { \"type\": \"move\", \"input\": \"left\" },     // \"a\"\n  \"83\": { \"type\": \"move\", \"input\": \"down\" },     // \"s\"\n  \"68\": { \"type\": \"move\", \"input\": \"right\" }     // \"d\"\n};\n\nvar handle_key_down = function(keyboard_event) {\n  console.log('keyboard received \"KeyDown\"', keyboard_event);\n  var key = keyboard_event.key;\n  if(key_input_map.hasOwnProperty(key)) {\n    Crafty.trigger('Input Started', key_input_map[key]);\n  }\n};\n\nvar handle_key_up = function(keyboard_event) {\n  console.log('keyboard received \"KeyUp\"', keyboard_event);\n  var key = keyboard_event.key;\n  if(key_input_map.hasOwnProperty(key)) {\n    Crafty.trigger('Input Ended', key_input_map[key]);\n  }\n};\n\nzombufo.e('Keyboard', function() {\n  return Crafty.e('Input, KeyboardInput')\n    .bind('KeyDown', handle_key_down)\n    .bind('KeyUp', handle_key_up);\n});\n\n//# sourceURL=webpack:///./src/entities/keyboard.js?");
 
 /***/ }),
 
@@ -182,6 +182,17 @@ eval("const key_input_map = {\n  \"w\": { \"type\": \"move\", \"input\": \"up\" 
 /***/ (function(module, exports) {
 
 eval("var calc_from_active_keys = function(active, max_acc) {\n  var horizontalctl = (active.indexOf('left') === -1 ? 0 : -1) + (active.indexOf('right') === -1 ? 0 : 1);\n  var verticalctl = (active.indexOf('up') === -1 ? 0 : -1) + (active.indexOf('down') === -1 ? 0 : 1);\n  \n  if(horizontalctl === 0 || verticalctl === 0 ) {\n    return [max_acc * horizontalctl, max_acc * verticalctl];\n  } else {\n    return [max_acc * (Math.PI/4) * horizontalctl, max_acc * (Math.PI/4) * verticalctl];\n  }\n};\n\nzombufo.e('RedSquare', function() {\n  var red_square = Crafty.e('Square, Color, RigidBody, InputControl')\n    .color('#FF0000');\n  \n  red_square.uniqueBind('Input Control Move Updated', function(data) {\n    console.log('red square received \"Input Control Move Updated\"', data);\n    var active = data.active;\n    this.acceleration(calc_from_active_keys(active, 1.0));\n  });\n  \n  return red_square;\n});\n\n//# sourceURL=webpack:///./src/entities/red_square.js?");
+
+/***/ }),
+
+/***/ "./src/entities/space_background.js":
+/*!******************************************!*\
+  !*** ./src/entities/space_background.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("zombufo.e('Space Setting', function() {\n  return Crafty.e('Space, Color')\n    .background('zombufo/src/assets/space_background.jpg');\n});\n\n\n//# sourceURL=webpack:///./src/entities/space_background.js?");
 
 /***/ }),
 
@@ -214,7 +225,18 @@ eval("(function(config, game) {\n  var initializer = function() {\n    window.re
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("var map = {\n\t\"./level_1.js\": \"./src/scenes/level_1.js\"\n};\n\n\nfunction webpackContext(req) {\n\tvar id = webpackContextResolve(req);\n\treturn __webpack_require__(id);\n}\nfunction webpackContextResolve(req) {\n\tvar id = map[req];\n\tif(!(id + 1)) { // check for number or string\n\t\tvar e = new Error(\"Cannot find module '\" + req + \"'\");\n\t\te.code = 'MODULE_NOT_FOUND';\n\t\tthrow e;\n\t}\n\treturn id;\n}\nwebpackContext.keys = function webpackContextKeys() {\n\treturn Object.keys(map);\n};\nwebpackContext.resolve = webpackContextResolve;\nmodule.exports = webpackContext;\nwebpackContext.id = \"./src/scenes sync recursive \\\\.js$\";\n\n//# sourceURL=webpack:///./src/scenes_sync_\\.js$?");
+eval("var map = {\n\t\"./level_1.0.js\": \"./src/scenes/level_1.0.js\",\n\t\"./level_1.js\": \"./src/scenes/level_1.js\"\n};\n\n\nfunction webpackContext(req) {\n\tvar id = webpackContextResolve(req);\n\treturn __webpack_require__(id);\n}\nfunction webpackContextResolve(req) {\n\tvar id = map[req];\n\tif(!(id + 1)) { // check for number or string\n\t\tvar e = new Error(\"Cannot find module '\" + req + \"'\");\n\t\te.code = 'MODULE_NOT_FOUND';\n\t\tthrow e;\n\t}\n\treturn id;\n}\nwebpackContext.keys = function webpackContextKeys() {\n\treturn Object.keys(map);\n};\nwebpackContext.resolve = webpackContextResolve;\nmodule.exports = webpackContext;\nwebpackContext.id = \"./src/scenes sync recursive \\\\.js$\";\n\n//# sourceURL=webpack:///./src/scenes_sync_\\.js$?");
+
+/***/ }),
+
+/***/ "./src/scenes/level_1.0.js":
+/*!*********************************!*\
+  !*** ./src/scenes/level_1.0.js ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("Crafty.defineScene('Level 1.0', function(setup) {\n  console.log('Level 1.0!');\n  zombufo.e('Space Setting')\n    .attr({x: 0, y:0})\n    .size(30);\n});\n\n\n//# sourceURL=webpack:///./src/scenes/level_1.0.js?");
 
 /***/ }),
 
