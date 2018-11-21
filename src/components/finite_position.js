@@ -10,8 +10,14 @@ Crafty.c('FinitePosition', {
 
   events: {
     "Move": function() {
-      this._handle_vertical();
-      this._handle_horizontal();
+      var vertical = this._handle_vertical();
+      var horizontal = this._handle_horizontal();
+      if(vertical !== null || horizontal !== null) {
+        this.trigger('Finite Position Corrected', {
+          vertical: vertical,
+          horizontal: horizontal
+        });
+      }
     }
   },
 
@@ -41,9 +47,12 @@ Crafty.c('FinitePosition', {
     var max = this._finite_vertical_max;
     if(min !== null && y < min) {
       this.y = min;
+      return {oob: y, type: 'minimum'};
     } else if(max !== null && y > max) {
       this.y = max;
+      return {oob: y, type: 'maximum'};
     }
+    return null;
   },
 
   _handle_horizontal: function() {
@@ -52,8 +61,11 @@ Crafty.c('FinitePosition', {
     var max = this._finite_horizontal_max;
     if(min !== null && x < min) {
       this.x = min;
+      return {oob: x, type: 'minimum'};
     } else if(max !== null && x > max) {
       this.x = max;
+      return {oob: x, type: 'maximum'};
     }
+    return null;
   }
 });
