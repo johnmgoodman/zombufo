@@ -10,12 +10,18 @@ var calc_from_active_keys = function(active, max_acc) {
 };
 
 zombufo.e('RedSquare', function() {
-  var red_square = Crafty.e('Square, Color, RigidBody, InputControl')
-    .color('#FF0000');
+  var red_square = Crafty.e('Square, Color, RigidBody, InputControl, FinitePosition')
+    .color('#FF0000')
+    .finite_vertical([0,276])
+    .finite_horizontal([0,276]);
   
   red_square.uniqueBind('Input Control Move Updated', function(data) {
     var active = data.active;
     this.acceleration(calc_from_active_keys(active, 1.0));
+  });
+
+  red_square.bind('Finite Position Corrected', function(data){
+    this.velocity([0,0]);
   });
   
   return red_square;
